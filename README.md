@@ -3,6 +3,8 @@
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/erwinkramer/otel-business)
 
+![Business tracing with OTel mascot](.images/mascot.png)
+
 Get started with distributed business tracing in context of OTel (OpenTelemetry).
 
 [Guanchen.Monitor](/Guanchen.Monitor/) is the component library to facilitate business tracing. Currently supported usages are:
