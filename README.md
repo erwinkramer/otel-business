@@ -3,7 +3,7 @@
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/erwinkramer/otel-business)
 
-![Business tracing with OTel mascot](.images/mascot.png)
+![Business tracing with OTel mascot](.images/mascot-small.png)
 
 Get started with distributed business tracing in context of OTel (OpenTelemetry).
 
