@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.*" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.*" />
+    <PackageReference Include="OpenTelemetry.Extensions" Version="1.*-*" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.OpenTelemetry" Version="1.*-*" />
+  </ItemGroup>
+
+</Project>

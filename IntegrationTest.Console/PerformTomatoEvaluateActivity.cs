@@ -1,0 +1,39 @@
+
+using Guanchen.Monitor;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using OpenTelemetry;
+
+public partial class Common
+{
+
+    public enum TomatoPricingState
+    {
+        Current,
+        Future
+    }
+
+    public static async Task PerformTomatoEvaluateActivity(TomatoPricingState state, string tomatoId, ILogger logger, ActivitySource businessActivitySource)
+    {
+        var price = Math.Round(new Random().NextDouble() * 20, 2);
+
+        Baggage.SetBaggage("Tomato Pricing State", state.ToString());
+        Baggage.SetBaggage("Tomato Price", price.ToString());
+
+        using (var activity = businessActivitySource.StartChildBusinessActivity($"Analyzing {state} Price"))
+        {
+            logger.LogBusinessInformation("Checking cost of tomato");
+
+            if (price < 18)
+            {
+                logger.LogBusinessInformation("This is good, because {Business Reason}.", "Tomato is vibing hard!?");
+                activity?.SetStatus(ActivityStatusCode.Ok);
+            }
+            else
+            {
+                logger.LogBusinessError("An error occurred, because {Business Reason}.", "Tomato is capping hard!?");
+                activity?.SetStatus(ActivityStatusCode.Error);
+            }
+        }
+    }
+}
