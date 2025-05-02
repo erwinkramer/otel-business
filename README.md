@@ -1,4 +1,7 @@
-# Business tracing with OTel
+# Business tracing with OTel 💼
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/erwinkramer/otel-business)
 
 Get started with distributed business tracing in context of OTel (OpenTelemetry).
 
@@ -223,3 +226,14 @@ For a complete overview, see [How do Application Insights telemetry types map to
 1. [OpenTelemetry .NET Contrib](https://github.com/open-telemetry/opentelemetry-dotnet-contrib)
 1. [Go OTEL Audit](https://github.com/microsoft/go-otel-audit), a package for auditing Go code for Microsoft compliance purposes
 1. [Audit.NET](https://github.com/thepirat000/Audit.NET)
+
+## License
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
