@@ -209,8 +209,23 @@ For a complete overview, see [How do Application Insights telemetry types map to
 
 ## Reliability notes
 
-1. **Eventual export of logs** to Azure Monitor is made possible by [Offline Storage and Automatic Retries](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration?tabs=net#offline-storage-and-automatic-retries), which are enabled by default in the [Azure Monitor OpenTelemetry Distro](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore), but [isn't a feature of the base .NET OpenTelemetry implementation yet](https://github.com/open-telemetry/opentelemetry-dotnet/issues/4115). 
-1. **On time export of spans** to Azure Monitor is made possible by [ForceFlush](https://opentelemetry.io/docs/specs/otel/trace/sdk/#forceflush), implemented via `AutoFlushActivityProcessor`. This processor is in [OpenTelemetry.Extensions](https://www.nuget.org/packages/OpenTelemetry.Extensions). See https://github.com/open-telemetry/opentelemetry-specification/issues/2944#issuecomment-1319536765 for more context. It doesn't check the flush status but does wait until it's done, please see: https://github.com/open-telemetry/opentelemetry-dotnet-contrib/issues/2721. To confirm that it reliably exports completed spans, please see the `FailFastTest` in [IntegrationTest](/IntegrationTest/).
+### Logs
+
+> ❌ Using logs for auditing purposes is not supported.
+
+**Eventual export of logs** to Azure Monitor is made possible by [Offline Storage and Automatic Retries](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration?tabs=net#offline-storage-and-automatic-retries), which are enabled by default in the [Azure Monitor OpenTelemetry Distro](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore), but [isn't a feature of the base .NET OpenTelemetry implementation yet](https://github.com/open-telemetry/opentelemetry-dotnet/issues/4115).
+
+1. This doesn't reliably send messages again in case of a disaster at the client side, only when there is an outage at the Azure Monitor side. 
+
+### Spans
+
+> ✔️ Using spans for auditing purposes is supported.
+
+**On time export of spans** to Azure Monitor is made possible by [ForceFlush](https://opentelemetry.io/docs/specs/otel/trace/sdk/#forceflush), implemented via `AutoFlushActivityProcessor`. This processor is in [OpenTelemetry.Extensions](https://www.nuget.org/packages/OpenTelemetry.Extensions). 
+
+1. To confirm that it reliably exports completed spans, please see the `FailFastTest` in [IntegrationTest](/IntegrationTest/).
+1. See https://github.com/open-telemetry/opentelemetry-specification/issues/2944#issuecomment-1319536765 for more context. 
+1. It doesn't check the flush status but does wait until it's done, please see: https://github.com/open-telemetry/opentelemetry-dotnet-contrib/issues/2721.
 1. [What is guaranteed on a completed Activity?](https://github.com/open-telemetry/opentelemetry-dotnet/discussions/6266)
 
 ## Caveats
