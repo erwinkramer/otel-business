@@ -44,36 +44,46 @@ namespace Guanchen.Monitor
 
         public static ActivityEvent NewBusinessEvent(string message, IEnumerable<KeyValuePair<string, object?>>? tags = null)
         {
-            // For short messages, string interpolation is faster than StringBuilder
             var businessEvent = $"💼 {message}";
 
-            // Avoid unnecessary allocations by initializing with capacity if tags are provided
-            var tagsCollection = tags is not null
-                ? new ActivityTagsCollection(tags)
+            // Initialize tag collection
+            var tagsCollection = tags is ICollection<KeyValuePair<string, object?>> collection
+                ? new ActivityTagsCollection(collection)
                 : new ActivityTagsCollection();
 
-            // Track existing keys to avoid duplicates
-            var seenKeys = new HashSet<string>(tagsCollection.Select(tag => tag.Key));
+            // Track keys to prevent duplicates
+            HashSet<string>? seenKeys = null;
 
-            // Add the constant tag (if not already present)
+            if (tags != null)
+            {
+                seenKeys = new HashSet<string>();
+                foreach (var kvp in tags)
+                {
+                    seenKeys.Add(kvp.Key);
+                }
+            }
+
+            // Always add the constant tag if not already present
+            seenKeys ??= new HashSet<string>();
             if (seenKeys.Add(BusinessInformationScopeTag.Key))
             {
                 tagsCollection.Add(BusinessInformationScopeTag);
             }
 
-            // Prefer Activity.Current.Baggage over global baggage if available
-            IEnumerable<KeyValuePair<string, string>> baggage =
-                Activity.Current?.Baggage ?? Enumerable.Empty<KeyValuePair<string, string>>();
-
-            foreach (var kvp in baggage)
+            // Add Activity.Current baggage
+            var currentActivity = Activity.Current;
+            if (currentActivity != null)
             {
-                if (seenKeys.Add(kvp.Key))
+                foreach (var kvp in currentActivity.Baggage)
                 {
-                    tagsCollection.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
+                    if (seenKeys.Add(kvp.Key))
+                    {
+                        tagsCollection.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
+                    }
                 }
             }
 
-            // Add remaining baggage from global context only if not already added
+            // Add global baggage
             foreach (var kvp in Baggage.GetBaggage())
             {
                 if (seenKeys.Add(kvp.Key))

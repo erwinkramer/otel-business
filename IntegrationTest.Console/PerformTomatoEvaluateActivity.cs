@@ -22,7 +22,10 @@ public partial class Common
 
         using (var activity = businessActivitySource.StartChildBusinessActivity($"Analyzing {state} Price"))
         {
-            activity.AddEvent(BusinessTracing.NewBusinessEvent("Checking cost of tomato"));
+            activity.AddEvent(BusinessTracing.NewBusinessEvent("Checking cost of tomato",
+            [
+                new KeyValuePair<string, object?>("Checker", "Erwin"),
+            ]));
 
             if (price < 18)
             {
