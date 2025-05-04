@@ -1,4 +1,5 @@
 {
+    "dotnet.testWindow.useTestingPlatformProtocol": true,
     "cSpell.words": [
         "Guanchen"
     ],
