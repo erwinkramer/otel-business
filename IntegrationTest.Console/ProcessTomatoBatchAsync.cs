@@ -13,7 +13,7 @@ public partial class Common
 
         using (var batchActivity = businessActivitySource.StartParentBusinessActivity("Splitting Tomato Batch"))
         {
-            batchActivity.AddEvent(BusinessTracing.NewBusinessEvent("Splitting tomato batch into individual tomatoes."));
+            batchActivity.AddEvent(BusinessTracing.NewBusinessEvent("Will be processing individual tomatoes."));
             logger.LogBusinessInformation("Another day, another batch of tomaders, am I right?");
 
             for (int i = 0; i < 3; i++)
