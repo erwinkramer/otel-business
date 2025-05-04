@@ -84,14 +84,16 @@ namespace Guanchen.Monitor
                 .AddHttpClientInstrumentation()
                 .AddSource(businessActivitySource.Name)
                 .AddSource("Azure.*")
-                .AddSource("Microsoft.Azure.Functions.*")
-                .AddAutoFlushActivityProcessor(a => a.GetTagItem("Business Trace") != null, 5000); //https://github.com/open-telemetry/opentelemetry-dotnet-contrib/tree/5aa6d86836bbc13659d61abcf3040a0811537f7e/src/OpenTelemetry.Extensions#autoflushactivityprocessor
+                .AddSource("Microsoft.Azure.Functions.*");
 
             if (includeConsoleExporter)
             {
                 builder.AddAzureMonitorTraceExporter();
                 builder.AddConsoleExporter();
             }
+
+            // always add AutoFlush last
+            builder.AddAutoFlushActivityProcessor(a => a.GetTagItem("Business Trace") != null, 5000); //https://github.com/open-telemetry/opentelemetry-dotnet-contrib/tree/5aa6d86836bbc13659d61abcf3040a0811537f7e/src/OpenTelemetry.Extensions#autoflushactivityprocessor
 
             return builder;
         }
