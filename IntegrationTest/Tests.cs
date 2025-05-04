@@ -8,6 +8,11 @@ public class Test
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Failing right after completing the "Analyzing {state} Price" span, 
+    /// only this span should be (guaranteed to be) exported to Azure Monitor since the other spans did not complete yet.
+    /// </summary>
+    /// <returns></returns>
     [Test]
     public async Task FailFastTest()
     {
