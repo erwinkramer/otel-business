@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry;
 
 namespace Guanchen.Monitor
 {
@@ -47,12 +48,39 @@ namespace Guanchen.Monitor
             var businessEvent = $"💼 {message}";
 
             // Avoid unnecessary allocations by initializing with capacity if tags are provided
-            var tagsCollection = tags is not null 
-            ? new ActivityTagsCollection(tags) 
-            : new ActivityTagsCollection();
+            var tagsCollection = tags is not null
+                ? new ActivityTagsCollection(tags)
+                : new ActivityTagsCollection();
 
-            // Add the constant tag directly
-            tagsCollection.Add(BusinessInformationScopeTag);
+            // Track existing keys to avoid duplicates
+            var seenKeys = new HashSet<string>(tagsCollection.Select(tag => tag.Key));
+
+            // Add the constant tag (if not already present)
+            if (seenKeys.Add(BusinessInformationScopeTag.Key))
+            {
+                tagsCollection.Add(BusinessInformationScopeTag);
+            }
+
+            // Prefer Activity.Current.Baggage over global baggage if available
+            IEnumerable<KeyValuePair<string, string>> baggage =
+                Activity.Current?.Baggage ?? Enumerable.Empty<KeyValuePair<string, string>>();
+
+            foreach (var kvp in baggage)
+            {
+                if (seenKeys.Add(kvp.Key))
+                {
+                    tagsCollection.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
+                }
+            }
+
+            // Add remaining baggage from global context only if not already added
+            foreach (var kvp in Baggage.GetBaggage())
+            {
+                if (seenKeys.Add(kvp.Key))
+                {
+                    tagsCollection.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
+                }
+            }
 
             return new ActivityEvent(businessEvent, default, tagsCollection);
         }
