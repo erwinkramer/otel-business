@@ -33,6 +33,7 @@ namespace Guanchen.Monitor
         {
             options.IncludeScopes = true;
             options.AddProcessor(new BusinessTracingLogProcessor());
+            //options.AttachLogsToActivityEvent(); // Required for the AutoFlushActivityProcessor to make sure that logs are also flushed with the same activity/span
         }
 
         public static ILogger CreateLogger(this ILoggerFactory loggerFactory, ActivitySource source)
