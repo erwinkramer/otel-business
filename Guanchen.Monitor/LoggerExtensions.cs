@@ -41,13 +41,20 @@ namespace Guanchen.Monitor
             }
         }
 
-        public static ActivityEvent NewBusinessEvent(string message)
+        public static ActivityEvent NewBusinessEvent(string message, IEnumerable<KeyValuePair<string, object?>>? tags = null)
         {
             // For short messages, string interpolation is faster than StringBuilder
             var businessEvent = $"💼 {message}";
 
-            var tags = new ActivityTagsCollection([BusinessInformationScopeTag]);
-            return new ActivityEvent(businessEvent, default, tags);
+            // Avoid unnecessary allocations by initializing with capacity if tags are provided
+            var tagsCollection = tags is not null 
+            ? new ActivityTagsCollection(tags) 
+            : new ActivityTagsCollection();
+
+            // Add the constant tag directly
+            tagsCollection.Add(BusinessInformationScopeTag);
+
+            return new ActivityEvent(businessEvent, default, tagsCollection);
         }
     }
 }
