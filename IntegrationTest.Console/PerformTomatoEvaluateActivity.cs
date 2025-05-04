@@ -13,7 +13,7 @@ public partial class Common
         Future
     }
 
-    public static async Task PerformTomatoEvaluateActivity(TomatoPricingState state, string tomatoId, ILogger logger, ActivitySource businessActivitySource)
+    public static async Task PerformTomatoEvaluateActivity(TomatoPricingState state, string tomatoId, ILogger logger, ActivitySource businessActivitySource, bool failFast = false)
     {
         var price = Math.Round(new Random().NextDouble() * 20, 2);
 
@@ -35,5 +35,9 @@ public partial class Common
                 activity?.SetStatus(ActivityStatusCode.Error);
             }
         }
+
+        if (failFast)
+            Environment.FailFast("Triggered a fail fast exception that should not be caught.");
+
     }
 }

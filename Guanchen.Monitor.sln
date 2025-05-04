@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest.Function", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guanchen.Monitor", "Guanchen.Monitor\Guanchen.Monitor.csproj", "{B7356221-6F96-4B81-BB1B-D860D10CB0E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "IntegrationTest\IntegrationTest.csproj", "{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{B7356221-6F96-4B81-BB1B-D860D10CB0E9}.Release|x64.Build.0 = Release|Any CPU
 		{B7356221-6F96-4B81-BB1B-D860D10CB0E9}.Release|x86.ActiveCfg = Release|Any CPU
 		{B7356221-6F96-4B81-BB1B-D860D10CB0E9}.Release|x86.Build.0 = Release|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Debug|x64.Build.0 = Debug|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Release|x64.ActiveCfg = Release|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Release|x64.Build.0 = Release|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{EAF5A64C-E7E4-4647-83A9-9C99531E02DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
