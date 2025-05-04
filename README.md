@@ -56,6 +56,8 @@ Use `StartChildBusinessActivity()` to start a child business span. This method w
 
 Use `LogBusinessInformation()` or `LogBusinessError()` to create business logs within a span.
 
+Use `NewBusinessEvent()` to create business events within a span. These events are stored in the same table but are associated with a span, ensuring more reliable delivery. For more details, refer to the [Reliability notes](#reliability-notes).
+
 ### Baggage
 
 > [OTel Baggage](https://opentelemetry.io/docs/concepts/signals/baggage/) keeps contextual information and [propagates](https://opentelemetry.io/docs/concepts/context-propagation/#propagation) the information (which currently has its limits, as explained at [the Caveats paragraph](#caveats)). Technically, on .NET Activities they are `Tags` and for .NET ILogger logs they will be set on `OpenTelemetry.Logs.LogRecord.Attributes`. For both they will end up in the [Custom properties](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#custom-properties-1) column of their related Azure Monitor table (`requests` and `traces` respectively).
