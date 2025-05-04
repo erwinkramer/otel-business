@@ -1,19 +1,20 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace Guanchen.Monitor
 {
     public static partial class BusinessTracing
     {
-        private static readonly KeyValuePair<string, object> BusinessInformationScopeTag =
+        private static readonly KeyValuePair<string, object?> BusinessInformationScopeTag =
             new("Business Trace", "Information");
 
-        private static readonly KeyValuePair<string, object> BusinessErrorScopeTag =
+        private static readonly KeyValuePair<string, object?> BusinessErrorScopeTag =
             new("Business Trace", "Error");
 
-        private static readonly IReadOnlyList<KeyValuePair<string, object>> BusinessInformationScope =
+        private static readonly IReadOnlyList<KeyValuePair<string, object?>> BusinessInformationScope =
             new[] { BusinessInformationScopeTag };
 
-        private static readonly IReadOnlyList<KeyValuePair<string, object>> BusinessErrorScope =
+        private static readonly IReadOnlyList<KeyValuePair<string, object?>> BusinessErrorScope =
             new[] { BusinessErrorScopeTag };
 
         public static void LogBusinessInformation(this ILogger logger, string message, params object[] args)
@@ -38,6 +39,15 @@ namespace Guanchen.Monitor
             {
                 logger.LogInformation(businessMessage, args);
             }
+        }
+
+        public static ActivityEvent NewBusinessEvent(string message)
+        {
+            // For short messages, string interpolation is faster than StringBuilder
+            var businessEvent = $"💼 {message}";
+
+            var tags = new ActivityTagsCollection([BusinessInformationScopeTag]);
+            return new ActivityEvent(businessEvent, default, tags);
         }
     }
 }
