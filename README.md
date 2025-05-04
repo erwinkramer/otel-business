@@ -218,6 +218,7 @@ For a complete overview, see [How do Application Insights telemetry types map to
 **Eventual export of logs** to Azure Monitor is made possible by [Offline Storage and Automatic Retries](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration?tabs=net#offline-storage-and-automatic-retries), which are enabled by default in the [Azure Monitor OpenTelemetry Distro](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore), but [isn't a feature of the base .NET OpenTelemetry implementation yet](https://github.com/open-telemetry/opentelemetry-dotnet/issues/4115).
 
 1. This doesn't reliably send messages again in case of a disaster at the client side, only when there is an outage at the Azure Monitor side. 
+1. Logs could be automatically converted to span events via `AttachLogsToActivityEvent` to get the same reliability as (events in) spans, but this changes the event message and properties too much and thus requires some more tweaking via `LogToActivityEventConversionOptions`.
 
 ### Spans
 
