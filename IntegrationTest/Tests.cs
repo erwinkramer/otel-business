@@ -22,11 +22,11 @@ public class Test
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Caught exception: {ex.Message}. This shouldn't be happening.");
+            Assert.Fail($"Caught exception: {ex.Message}. This shouldn't be happening, it should simulate a disaster without catching exceptions.");
         }
         finally
         {
-            Console.WriteLine("In finally block. This shouldn't be happening.");
+            Assert.Fail("In finally block. This shouldn't be happening, it should simulate a disaster without graceful dispose.");
         }
     }
 }
