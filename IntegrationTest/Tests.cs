@@ -9,8 +9,19 @@ public class Test
     }
 
     [Test]
-    public async Task CreateBankReturnsCreated()
+    public async Task FailFastTest()
     {
-        await Program.Main(["true"]); // Pass "true" to simulate an unhandled exception
+        try
+        {
+            await Program.Main(["true"]); // Pass "true" to simulate a fail-fast scenario
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Caught exception: {ex.Message}. This shouldn't be happening.");
+        }
+        finally
+        {
+            Console.WriteLine("In finally block. This shouldn't be happening.");
+        }
     }
 }

@@ -9,7 +9,7 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-        var throwUnhandledException = args.Length > 0 && args[0] == "true";
+        var failFast = args.Length > 0 && args[0] == "true";
 
         if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AZURE_TENANT_ID")) ||
             string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
@@ -31,7 +31,7 @@ public class Program
 
         try
         {
-            await Common.ProcessTomatoBatchAsync(businessActivitySource, logger, httpClient, cred, servicebusNamespace);
+            await Common.ProcessTomatoBatchAsync(businessActivitySource, logger, httpClient, cred, servicebusNamespace, failFast);
         }
         catch (Exception ex)
         {
