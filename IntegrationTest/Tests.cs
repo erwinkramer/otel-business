@@ -9,10 +9,25 @@ public class Test
     }
 
     /// <summary>
+    /// Basic test to ensure that the application runs without exceptions.
+    /// </summary>
+    [Test]
+    public async Task BasicTest()
+    {
+        try
+        {
+            await Program.Main(["false"]); // Pass "false" to simulate a happy path
+        }
+        catch (Exception ex)
+        {
+            Assert.Fail($"Caught exception: {ex.Message}.");
+        }
+    }
+
+    /// <summary>
     /// Failing right after completing the "Analyzing {state} Price" span, 
     /// only this span should be (guaranteed to be) exported to Azure Monitor since the other spans did not complete yet.
     /// </summary>
-    /// <returns></returns>
     [Test]
     public async Task FailFastTest()
     {
