@@ -196,6 +196,7 @@ The following table mappings are relevant in this project:
 | exceptions           | Exceptions                      | System.Exception    
 | requests             | Spans (Server, Producer)        | System.Diagnostics.Activity   
 | traces               | Logs                            | Microsoft.Extensions.Logging.ILogger 
+| traces               | Span Events                     | System.Diagnostics.ActivityEvent
 
 For a complete overview, see [How do Application Insights telemetry types map to OpenTelemetry?](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-dotnet-migrate?tabs=aspnetcore#how-do-application-insights-telemetry-types-map-to-opentelemetry).
 
