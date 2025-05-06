@@ -223,7 +223,7 @@ For a complete overview, see [How do Application Insights telemetry types map to
 
 ### Spans
 
-> ✔️ Using spans for auditing purposes is supported. This includes events added to (completed) spans via `Activity.AddEvent`.
+> ✔️ Using spans for auditing purposes is supported. This includes span events, added to (completed) spans via `Activity.AddEvent`.
 
 **On time export of spans** to Azure Monitor is made possible by [ForceFlush](https://opentelemetry.io/docs/specs/otel/trace/sdk/#forceflush), implemented via `AutoFlushActivityProcessor`. This processor is in [OpenTelemetry.Extensions](https://www.nuget.org/packages/OpenTelemetry.Extensions). 
 
