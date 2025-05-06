@@ -54,7 +54,7 @@ Use `StartChildBusinessActivity()` to start a child business span. This method w
 
 > [OTel Span Events](https://opentelemetry.io/docs/concepts/signals/traces/#span-events) are [ActivityEvents in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activityevent) and end up in the `traces` table.
 
-Use `NewBusinessEvent()` to create business events within a span. These events are stored in the same table but are associated with a span, ensuring more reliable delivery. For more details, refer to the [Reliability notes](#reliability-notes).
+Use `NewBusinessEvent()` to create business events within a span. These events are stored in the same table as [Logs](#logs) but are directly associated with a span, ensuring more reliable delivery. For more details, refer to the [Reliability notes](#reliability-notes).
 
 ### Logs
 
