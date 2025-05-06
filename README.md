@@ -50,13 +50,17 @@ Use `StartParentBusinessActivity()` to start a business span and `StartLinkedBus
 
 Use `StartChildBusinessActivity()` to start a child business span. This method will not generate a new operation ID and is generally suited for sub-processes within a business operation. 
 
+### Span Events
+
+> [OTel Span Events](https://opentelemetry.io/docs/concepts/signals/traces/#span-events) are [ActivityEvents in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activityevent) and end up in the `traces` table.
+
+Use `NewBusinessEvent()` to create business events within a span. These events are stored in the same table but are associated with a span, ensuring more reliable delivery. For more details, refer to the [Reliability notes](#reliability-notes).
+
 ### Logs
 
 > [OTel Logs](https://opentelemetry.io/docs/concepts/signals/logs/) are [ILogger logs in .NET](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger) and end up in the `traces` table.
 
 Use `LogBusinessInformation()` or `LogBusinessError()` to create business logs within a span.
-
-Use `NewBusinessEvent()` to create business events within a span. These events are stored in the same table but are associated with a span, ensuring more reliable delivery. For more details, refer to the [Reliability notes](#reliability-notes).
 
 ### Baggage
 
