@@ -28,33 +28,9 @@ namespace Guanchen.Monitor
 
         public override void OnEnd(LogRecord record)
         {
-            bool hasAttributes = record.Attributes?.Count > 0;
-            bool hasActivityBaggage = Activity.Current?.Baggage is { } activityBaggage && activityBaggage.GetEnumerator().MoveNext();
-            bool hasGlobalBaggage = Baggage.GetBaggage().GetEnumerator().MoveNext();
-
-            if (!hasActivityBaggage && !hasGlobalBaggage) return;
-
-            var mergedAttributes = hasAttributes
-                ? new List<KeyValuePair<string, object?>>(record.Attributes!)
-                : new List<KeyValuePair<string, object?>>();
-
-            if (hasActivityBaggage)
-            {
-                foreach (var kvp in Activity.Current!.Baggage)
-                {
-                    mergedAttributes.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
-                }
-            }
-
-            if (hasGlobalBaggage)
-            {
-                foreach (var kvp in Baggage.GetBaggage())
-                {
-                    mergedAttributes.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
-                }
-            }
-
+            var mergedAttributes = BaggageHelper.MergeBaggage(record.Attributes);
             record.Attributes = mergedAttributes;
         }
     }
+
 }

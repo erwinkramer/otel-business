@@ -51,45 +51,13 @@ namespace Guanchen.Monitor
                 ? new ActivityTagsCollection(collection)
                 : new ActivityTagsCollection();
 
-            // Track keys to prevent duplicates
-            HashSet<string>? seenKeys = null;
+            tagsCollection.TryAdd(BusinessInformationScopeTag.Key, BusinessInformationScopeTag.Value);
 
-            if (tags != null)
+            // Merge additional baggage and add it to tagsCollection
+            var mergedTags = BaggageHelper.MergeBaggage(tags);
+            foreach (var kvp in mergedTags)
             {
-                seenKeys = new HashSet<string>();
-                foreach (var kvp in tags)
-                {
-                    seenKeys.Add(kvp.Key);
-                }
-            }
-
-            // Always add the constant tag if not already present
-            seenKeys ??= new HashSet<string>();
-            if (seenKeys.Add(BusinessInformationScopeTag.Key))
-            {
-                tagsCollection.Add(BusinessInformationScopeTag);
-            }
-
-            // Add Activity.Current baggage
-            var currentActivity = Activity.Current;
-            if (currentActivity != null)
-            {
-                foreach (var kvp in currentActivity.Baggage)
-                {
-                    if (seenKeys.Add(kvp.Key))
-                    {
-                        tagsCollection.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
-                    }
-                }
-            }
-
-            // Add global baggage
-            foreach (var kvp in Baggage.GetBaggage())
-            {
-                if (seenKeys.Add(kvp.Key))
-                {
-                    tagsCollection.Add(new KeyValuePair<string, object?>(kvp.Key, kvp.Value));
-                }
+                tagsCollection.TryAdd(kvp.Key, kvp.Value);
             }
 
             return new ActivityEvent(businessEvent, default, tagsCollection);
