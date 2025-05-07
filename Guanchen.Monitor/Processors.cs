@@ -32,5 +32,4 @@ namespace Guanchen.Monitor
             record.Attributes = mergedAttributes;
         }
     }
-
 }

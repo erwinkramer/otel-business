@@ -92,5 +92,26 @@ namespace Guanchen.Monitor
 
             return activity ?? throw new InvalidOperationException($"Failed to start activity '{businessActivityName}'.");
         }
+
+        public static ActivityEvent NewBusinessEvent(string message, IEnumerable<KeyValuePair<string, object?>>? tags = null)
+        {
+            var businessEvent = $"💼 {message}";
+
+            // Initialize tag collection
+            var tagsCollection = tags is ICollection<KeyValuePair<string, object?>> collection
+                ? new ActivityTagsCollection(collection)
+                : new ActivityTagsCollection();
+
+            tagsCollection.TryAdd(BusinessInformationScopeTag.Key, BusinessInformationScopeTag.Value);
+
+            // Merge additional baggage and add it to tagsCollection
+            var mergedTags = BaggageHelper.MergeBaggage(tags);
+            foreach (var kvp in mergedTags)
+            {
+                tagsCollection.TryAdd(kvp.Key, kvp.Value);
+            }
+
+            return new ActivityEvent(businessEvent, default, tagsCollection);
+        }
     }
 }

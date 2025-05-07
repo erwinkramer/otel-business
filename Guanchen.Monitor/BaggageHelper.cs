@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using OpenTelemetry;
-using System.Linq;
 
 namespace Guanchen.Monitor
 {
