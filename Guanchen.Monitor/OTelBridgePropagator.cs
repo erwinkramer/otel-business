@@ -25,8 +25,8 @@ class OTelBridgePropagator : DistributedContextPropagator
             getter.Invoke(c, n, out var value, out var values);
             return values;
         });
-
     }
+    
     public override IEnumerable<KeyValuePair<string, string?>>? ExtractBaggage(object? carrier, PropagatorGetterCallback? getter)
     {
         if (getter == null)
