@@ -53,12 +53,12 @@ namespace Guanchen.Monitor
         /// </summary>
         public static LinkedActivity StartLinkedBusinessActivity(this ActivitySource activitySource, string activityName)
         {
-             if (!activitySource.HasListeners())
+            if (!activitySource.HasListeners())
                 throw new InvalidOperationException($"No listeners are attached to the ActivitySource '{activitySource.Name}'.");
 
             var parent = Activity.Current;
 
-            if(parent == null)
+            if (parent == null)
                 throw new InvalidOperationException("No parent activity is available.");
 
             Activity.Current = null;
@@ -78,7 +78,7 @@ namespace Guanchen.Monitor
             if (!activitySource.HasListeners())
                 throw new InvalidOperationException($"No listeners are attached to the ActivitySource '{activitySource.Name}'.");
 
-            string businessActivityName = $"💼 {activityName}";
+            string businessActivityName = $"{BusinessMessagePrefix}{activityName}";
 
             var activity = activitySource.StartActivity(
                 businessActivityName,
@@ -87,7 +87,7 @@ namespace Guanchen.Monitor
                 tags: null,
                 links: activityLinks);
 
-            activity?.SetTag("Business Trace", "Information");
+            activity?.SetTag(BusinessTraceTag, "Information");
             Baggage.SetBaggage("Business Span Id", activity?.SpanId.ToString());
 
             return activity ?? throw new InvalidOperationException($"Failed to start activity '{businessActivityName}'.");
@@ -95,7 +95,7 @@ namespace Guanchen.Monitor
 
         public static ActivityEvent NewBusinessEvent(string message, IEnumerable<KeyValuePair<string, object?>>? tags = null)
         {
-            var businessEvent = $"💼 {message}";
+            var businessEvent = $"{BusinessMessagePrefix}{message}";
 
             // Initialize tag collection
             var tagsCollection = tags is ICollection<KeyValuePair<string, object?>> collection
@@ -105,8 +105,7 @@ namespace Guanchen.Monitor
             tagsCollection.TryAdd(BusinessInformationScopeTag.Key, BusinessInformationScopeTag.Value);
 
             // Merge additional baggage and add it to tagsCollection
-            var mergedTags = BaggageHelper.MergeBaggage(tags);
-            foreach (var kvp in mergedTags)
+            foreach (var kvp in BaggageHelper.MergeBaggage(tags))
             {
                 tagsCollection.TryAdd(kvp.Key, kvp.Value);
             }

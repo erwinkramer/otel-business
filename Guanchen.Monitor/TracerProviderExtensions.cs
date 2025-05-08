@@ -93,7 +93,7 @@ namespace Guanchen.Monitor
             }
 
             // always add AutoFlush last
-            builder.AddAutoFlushActivityProcessor(a => a.GetTagItem("Business Trace") != null, 5000); //https://github.com/open-telemetry/opentelemetry-dotnet-contrib/tree/5aa6d86836bbc13659d61abcf3040a0811537f7e/src/OpenTelemetry.Extensions#autoflushactivityprocessor
+            builder.AddAutoFlushActivityProcessor(a => a.GetTagItem(BusinessTraceTag) != null, 5000); //https://github.com/open-telemetry/opentelemetry-dotnet-contrib/tree/5aa6d86836bbc13659d61abcf3040a0811537f7e/src/OpenTelemetry.Extensions#autoflushactivityprocessor
 
             return builder;
         }

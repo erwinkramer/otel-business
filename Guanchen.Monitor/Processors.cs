@@ -8,10 +8,10 @@ namespace Guanchen.Monitor
     {
         public override void OnEnd(Activity activity)
         {
-            if (activity is null) return;
+            if (activity is null || activity.GetTagItem(BusinessTracing.BusinessTraceTag) is null)
+                return;
 
-            var mergedBaggage = BaggageHelper.MergeBaggage(default);
-            foreach (var baggage in mergedBaggage)
+            foreach (var baggage in BaggageHelper.MergeBaggage(default))
             {
                 activity.SetTag(baggage.Key, baggage.Value);
             }
@@ -29,8 +29,10 @@ namespace Guanchen.Monitor
 
         public override void OnEnd(LogRecord record)
         {
-            var mergedAttributes = BaggageHelper.MergeBaggage(record.Attributes);
-            record.Attributes = mergedAttributes;
+            if (record.Attributes == null || !record.Attributes.Any(attr => attr.Key == BusinessTracing.BusinessTraceTag))
+                return;
+
+            record.Attributes = BaggageHelper.MergeBaggage(record.Attributes);
         }
     }
 }
