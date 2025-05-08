@@ -31,7 +31,7 @@ namespace Guanchen.Monitor
         {
             bool isBusinessLogRecord = false;
 
-            record.ForEachScope<object>((callback, state) =>
+            record.ForEachScope<object>((callback, _) =>
             {
                 if (callback.Scope is IEnumerable<KeyValuePair<string, object>> keyValuePairs)
                 {
