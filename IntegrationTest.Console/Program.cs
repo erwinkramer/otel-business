@@ -28,6 +28,7 @@ public class Program
         using var httpClient = new HttpClient();
 
         var logger = loggerFactory.CreateLogger(businessActivitySource);
+        logger.LogInformation("Starting up bro...");
 
         try
         {

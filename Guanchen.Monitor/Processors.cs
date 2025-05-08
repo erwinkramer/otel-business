@@ -29,10 +29,20 @@ namespace Guanchen.Monitor
 
         public override void OnEnd(LogRecord record)
         {
-            if (record.Attributes == null || !record.Attributes.Any(attr => attr.Key == BusinessTracing.BusinessTraceTag))
-                return;
+            bool isBusinessLogRecord = false;
 
-            record.Attributes = BaggageHelper.MergeBaggage(record.Attributes);
+            record.ForEachScope<object>((callback, state) =>
+            {
+                if (callback.Scope is IEnumerable<KeyValuePair<string, object>> keyValuePairs)
+                {
+                    if (keyValuePairs.Any(attr => attr.Key == BusinessTracing.BusinessTraceTag))
+                        isBusinessLogRecord = true;
+                }
+
+            }, null);
+
+            if (isBusinessLogRecord)
+                record.Attributes = BaggageHelper.MergeBaggage(record.Attributes);
         }
     }
 }
