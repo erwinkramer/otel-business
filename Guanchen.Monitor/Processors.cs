@@ -27,12 +27,17 @@ namespace Guanchen.Monitor
             this.name = name;
         }
 
+        /// <summary>
+        /// If the last scope has BusinessTraceTag, we can consider it as a business log record
+        /// </summary>
         public override void OnEnd(LogRecord record)
         {
             bool isBusinessLogRecord = false;
 
             record.ForEachScope<object>((callback, _) =>
             {
+                isBusinessLogRecord = false;
+
                 if (callback.Scope is IEnumerable<KeyValuePair<string, object>> keyValuePairs)
                 {
                     if (keyValuePairs.Any(attr => attr.Key == BusinessTracing.BusinessTraceTag))
