@@ -66,7 +66,11 @@ Use `LogBusinessInformation()` or `LogBusinessError()` to create business logs w
 
 > [OTel Baggage](https://opentelemetry.io/docs/concepts/signals/baggage/) keeps contextual information and [propagates](https://opentelemetry.io/docs/concepts/context-propagation/#propagation) the information (which currently has its limits, as explained at [the Caveats paragraph](#caveats)). Technically, on .NET Activities they are `Tags` and for .NET ILogger logs they will be set on `OpenTelemetry.Logs.LogRecord.Attributes`. For both they will end up in the [Custom properties](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#custom-properties-1) column of their related Azure Monitor table (`requests` and `traces` respectively).
 
-Use `Baggage.SetBaggage()` to set business context information. This project makes sure that the baggage is continuously being set on business logs, business spans and business span events to make this information available in Azure Monitor.
+Use `Baggage.SetBaggage()` to set business context information to the root span, this persists throughout other spans (and their logs and events) that use the same root span, unless overwritten by a more recent `Baggage.SetBaggage()`.
+
+Use `yourActivity.SetBaggage()` to set business context information to an Activity, this persists throughout other child spans (and their logs and events).
+
+This project makes sure that the baggage is continuously being set on business logs, business spans and business span events to make this information available in Azure Monitor.
 
 Log, span and span event functions implicitly yield a `Business Trace` baggage key with the level (`Information`, `Error` etc.) als value.   
 

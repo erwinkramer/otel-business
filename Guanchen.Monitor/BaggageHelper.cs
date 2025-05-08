@@ -38,7 +38,7 @@ namespace Guanchen.Monitor
             }
 
             // Add global baggage last (lowest priority)
-            foreach (var kvp in Baggage.GetBaggage())
+            foreach (var kvp in Baggage.Current.GetBaggage())
             {
                 if (!seenKeys.Contains(kvp.Key))
                 {

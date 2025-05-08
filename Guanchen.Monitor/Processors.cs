@@ -6,11 +6,12 @@ namespace Guanchen.Monitor
 {
     public class BusinessTracingActivitiyProcessor : BaseProcessor<Activity>
     {
-        public override void OnStart(Activity activity)
+        public override void OnEnd(Activity activity)
         {
             if (activity is null) return;
 
-            foreach (var baggage in Baggage.GetBaggage())
+            var mergedBaggage = BaggageHelper.MergeBaggage(default);
+            foreach (var baggage in mergedBaggage)
             {
                 activity.SetTag(baggage.Key, baggage.Value);
             }

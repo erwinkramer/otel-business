@@ -17,11 +17,11 @@ public partial class Common
     {
         var price = Math.Round(new Random().NextDouble() * 20, 2);
 
-        Baggage.SetBaggage("Tomato Pricing State", state.ToString());
-        Baggage.SetBaggage("Tomato Price", price.ToString());
-
         using (var activity = businessActivitySource.StartChildBusinessActivity($"Analyzing {state} Price"))
         {
+            activity.SetBaggage("Tomato Pricing State",  state.ToString());
+            activity.SetBaggage("Tomato Price", price.ToString());
+
             activity.AddEvent(BusinessTracing.NewBusinessEvent("Checking cost of tomato",
             [
                 new KeyValuePair<string, object?>("Checker", "Erwin"),

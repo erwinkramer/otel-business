@@ -19,10 +19,10 @@ public partial class Common
             for (int i = 0; i < 3; i++)
             {
                 var tomatoId = Guid.NewGuid().ToString(); // Simulate a tomato ID
-                Baggage.SetBaggage("Tomato ID", tomatoId);
 
                 using (var tomatoActivity = businessActivitySource.StartLinkedBusinessActivity("Evaluating Tomato"))
                 {
+                    tomatoActivity.Activity.SetBaggage("Tomato ID", tomatoId);
                     logger.LogBusinessInformation("Every tomato matters.");
 
                     await PerformTomatoEvaluateActivity(TomatoPricingState.Current, tomatoId, logger, businessActivitySource, failFast);
