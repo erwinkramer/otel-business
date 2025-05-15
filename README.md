@@ -74,13 +74,40 @@ This project makes sure that the baggage is continuously being set on business l
 
 Log, span and span event functions implicitly yield a `Business Trace` baggage key with the level (`Information`, `Error` etc.) als value.
 
-## Prerequisites
+## Integration tests
 
-### General
+The integration test has the following OTel Span/Activity setup:
+
+```mermaid
+flowchart TB
+
+act_evaluating["Evaluating Tomato"]
+act_audit_httt["Auditing HTTP Tomato"]
+act_audit_queue["Auditing Queue Tomato"]
+
+subgraph op_parent["Batch operation ID"]
+
+act_splitting -- linked activity 'A'--> act_evaluating
+act_splitting -- linked activity 'B' --> act_evaluating
+act_splitting -- linked activity 'C' --> act_evaluating
+
+act_splitting["Splitting Tomato Batch"]
+
+subgraph op_child["Child operation ID"]
+
+
+act_evaluating -- child activity --> act_audit_httt
+act_evaluating -- child activity --> act_audit_queue
+
+end
+end
+```
+
+### General prerequisites
 
 Deploy and configure an Azure Service Bus with, as it's being used to send messages via the Console App to the Function App.
 
-### IntegrationTest.Console
+### IntegrationTest.Console prerequisites
 
 For [IntegrationTest.Console](/IntegrationTest.Console/), prepare the following:
 
@@ -94,7 +121,7 @@ For [IntegrationTest.Console](/IntegrationTest.Console/), prepare the following:
 
 1. Set the permissions for the identity running the Console App (likely yourself) on the Azure Service Bus to write messages.
 
-### IntegrationTest.Function
+### IntegrationTest.Function prerequisites
 
 For [IntegrationTest.Function](/IntegrationTest.Function/), prepare the following:
 
