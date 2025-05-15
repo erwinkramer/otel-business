@@ -127,7 +127,7 @@ end
 subgraph resource_sb["Service Bus"]
 queue[📬]
 
-act_evaluating --> queue
+act_evaluating -- passing through --> queue
 
 end
 
