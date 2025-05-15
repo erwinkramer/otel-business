@@ -125,7 +125,7 @@ act_splitting["Splitting Tomato Batch"]
 end
 
 subgraph resource_sb["Service Bus"]
-queue
+queue[✉️]
 
 act_evaluating --> queue
 
