@@ -223,7 +223,20 @@ union withsource= SourceApp
 workspace("6d489906-8b6a-4eba-b697-373f29a1a98b").AppTraces
 ```
 
-Run the following query to analyze a specific operation ID:
+Run the following query to figure out what operation IDs are related to specific Tomato IDs:
+
+```kql
+let TomatoIds = dynamic([
+    "1c946279-04b9-4c25-8846-0dabf1d59533"
+]);
+AppRequestsTomatoScope
+| extend 
+    TomatoId = tostring(Properties["Tomato ID"])
+| where TomatoId in (TomatoIds)
+| distinct OperationId, TomatoId
+```
+
+Run the following query to analyze specific operation IDs:
 
 ```kql
 let OperationIds = dynamic([
