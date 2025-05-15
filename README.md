@@ -76,7 +76,36 @@ Log, span and span event functions implicitly yield a `Business Trace` baggage k
 
 ## Integration tests
 
-The integration test has the following OTel Span/Activity setup. There are 4 unique activities in total, 1 for the complete batch; `Splitting Tomato Batch`, and 3 for each tomato in the batch; `Evaluating Tomato`, `Auditing HTTP Tomato` and `Auditing Queue Tomato`. All activities are related to each other, either as link or as child, as you see in the following diagram:
+The integration test has the following OTel Span/Activity setup. There are 4 unique activities in total, 1 for the complete batch; `Splitting Tomato Batch`, and 3 for each tomato in the batch; `Evaluating Tomato`, `Auditing HTTP Tomato` and `Auditing Queue Tomato`. All activities are related to each other, either as link or as child.
+
+In the following diagram the activities are related to the operation IDs:
+
+```mermaid
+flowchart TD
+
+act_evaluating["Evaluating Tomato"]
+act_audit_http["Auditing HTTP Tomato"]
+act_audit_queue["Auditing Queue Tomato"]
+
+subgraph op_parent["Unique batch operation ID"]
+
+act_splitting["Splitting Tomato Batch"]
+
+end
+
+subgraph op_child["Unique child operation ID"]
+
+act_splitting -- has linked activity --> act_evaluating
+act_splitting -- has linked activity --> act_evaluating
+act_splitting -- has linked activity --> act_evaluating
+
+act_evaluating -- has child activity --> act_audit_http
+act_evaluating -- has child activity --> act_audit_queue
+
+end
+```
+
+In the following diagram the activities are related to the hosting resources:
 
 ```mermaid
 flowchart TB
@@ -85,21 +114,28 @@ act_evaluating["Evaluating Tomato"]
 act_audit_http["Auditing HTTP Tomato"]
 act_audit_queue["Auditing Queue Tomato"]
 
-subgraph op_parent["Batch operation ID"]
+subgraph op_parent["Console App"]
 
-act_splitting -- linked activity 'A'--> act_evaluating
-act_splitting -- linked activity 'B' --> act_evaluating
-act_splitting -- linked activity 'C' --> act_evaluating
+act_splitting -- has linked activity --> act_evaluating
+act_splitting -- has linked activity --> act_evaluating
+act_splitting -- has linked activity --> act_evaluating
 
 act_splitting["Splitting Tomato Batch"]
 
-subgraph op_child["Child operation ID"]
+end
 
+subgraph resource_sb["Service Bus"]
+queue
 
-act_evaluating -- child activity --> act_audit_http
-act_evaluating -- child activity --> act_audit_queue
+act_evaluating --> queue
 
 end
+
+subgraph op_child["Function App"]
+
+queue -- has child activity --> act_audit_queue
+act_evaluating -- has child activity --> act_audit_http
+
 end
 ```
 
