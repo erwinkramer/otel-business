@@ -76,7 +76,7 @@ Log, span and span event functions implicitly yield a `Business Trace` baggage k
 
 ## Integration tests
 
-The integration test has the following OTel Span/Activity setup. There are 4 unique activities in total, 1 for the complete batch; `Splitting Tomato Batch` and 3 for each tomato in the batch; `Evaluating Tomato`, `Auditing HTTP Tomato` and `Auditing Queue Tomato`. All activities are related to each other, either as link or as child, as you see in the following diagram:
+The integration test has the following OTel Span/Activity setup. There are 4 unique activities in total, 1 for the complete batch; `Splitting Tomato Batch`, and 3 for each tomato in the batch; `Evaluating Tomato`, `Auditing HTTP Tomato` and `Auditing Queue Tomato`. All activities are related to each other, either as link or as child, as you see in the following diagram:
 
 ```mermaid
 flowchart TB
