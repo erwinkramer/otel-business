@@ -82,7 +82,7 @@ The integration test has the following OTel Span/Activity setup. There are 4 uni
 flowchart TB
 
 act_evaluating["Evaluating Tomato"]
-act_audit_httt["Auditing HTTP Tomato"]
+act_audit_http["Auditing HTTP Tomato"]
 act_audit_queue["Auditing Queue Tomato"]
 
 subgraph op_parent["Batch operation ID"]
@@ -96,7 +96,7 @@ act_splitting["Splitting Tomato Batch"]
 subgraph op_child["Child operation ID"]
 
 
-act_evaluating -- child activity --> act_audit_httt
+act_evaluating -- child activity --> act_audit_http
 act_evaluating -- child activity --> act_audit_queue
 
 end
