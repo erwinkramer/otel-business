@@ -8,6 +8,7 @@
 Get started with distributed business tracing in context of OTel (OpenTelemetry).
 
 [Guanchen.Monitor](/Guanchen.Monitor/) is the component library to facilitate business tracing. Currently supported usages are:
+
 1. Console Apps, sample via [IntegrationTest.Console](/IntegrationTest.Console/)
 1. Function Apps, sample via [IntegrationTest.Function](/IntegrationTest.Function/)
 
@@ -46,9 +47,9 @@ azmappi -- persists in --> azmtables
 
 > [OTel Spans](https://opentelemetry.io/docs/concepts/signals/traces/#spans) are [Activities in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activity) and end up in the `requests` table.
 
-Use `StartParentBusinessActivity()` to start a business span and `StartLinkedBusinessActivity()` to start a business span linked to another span. Both of these methods generate new [operation IDs](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#:~:text=operation_Id-,OperationId,-The%20unique%20identifier). These operation IDs are an important tool to analyze your business logging and can effectively seen as your span of business operations. 
+Use `StartParentBusinessActivity()` to start a business span and `StartLinkedBusinessActivity()` to start a business span linked to another span. Both of these methods generate new [operation IDs](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#:~:text=operation_Id-,OperationId,-The%20unique%20identifier). These operation IDs are an important tool to analyze your business logging and can effectively seen as your span of business operations.
 
-Use `StartChildBusinessActivity()` to start a child business span. This method will not generate a new operation ID and is generally suited for sub-processes within a business operation. 
+Use `StartChildBusinessActivity()` to start a child business span. This method will not generate a new operation ID and is generally suited for sub-processes within a business operation.
 
 ### Span Events
 
@@ -72,7 +73,7 @@ Use `yourActivity.SetBaggage()` to set business context information to an Activi
 
 This project makes sure that the baggage is continuously being set on business logs, business spans and business span events to make this information available in Azure Monitor.
 
-Log, span and span event functions implicitly yield a `Business Trace` baggage key with the level (`Information`, `Error` etc.) als value.   
+Log, span and span event functions implicitly yield a `Business Trace` baggage key with the level (`Information`, `Error` etc.) als value.
 
 ## Prerequisites
 
@@ -91,6 +92,7 @@ For [IntegrationTest.Console](/IntegrationTest.Console/), prepare the following:
     setx AZURE_TENANT_ID "..."
     setx AZURE_SERVICEBUS_FULLYQUALIFIEDNAMESPACE "....servicebus.windows.net"
     ```
+
 1. Set the permissions for the identity running the Console App (likely yourself) on the Azure Service Bus to write messages.
 
 ### IntegrationTest.Function
@@ -196,14 +198,14 @@ AppTracesTomatoScope
 
 ## Target tables
 
-The following table mappings are relevant in this project: 
+The following table mappings are relevant in this project:
 
-| Azure Monitor Table | OpenTelemetry DataType | .NET Implementation 
-|---|---|---|
-| customMetrics        | Metrics                         | System.Diagnostics.Metrics.Meter   
-| exceptions           | Exceptions                      | System.Exception    
-| requests             | Spans (Server, Producer)        | System.Diagnostics.Activity   
-| traces               | Logs                            | Microsoft.Extensions.Logging.ILogger 
+| Azure Monitor Table | OpenTelemetry DataType | .NET Implementation
+|---|---|---
+| customMetrics        | Metrics                         | System.Diagnostics.Metrics.Meter
+| exceptions           | Exceptions                      | System.Exception
+| requests             | Spans (Server, Producer)        | System.Diagnostics.Activity
+| traces               | Logs                            | Microsoft.Extensions.Logging.ILogger
 | traces               | Span Events                     | System.Diagnostics.ActivityEvent
 
 For a complete overview, see [How do Application Insights telemetry types map to OpenTelemetry?](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-dotnet-migrate?tabs=aspnetcore#how-do-application-insights-telemetry-types-map-to-opentelemetry).
@@ -226,23 +228,23 @@ For a complete overview, see [How do Application Insights telemetry types map to
 
 **Eventual export of logs** to Azure Monitor is made possible by [Offline Storage and Automatic Retries](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration?tabs=net#offline-storage-and-automatic-retries), which are enabled by default in the [Azure Monitor OpenTelemetry Distro](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore), but [isn't a feature of the base .NET OpenTelemetry implementation yet](https://github.com/open-telemetry/opentelemetry-dotnet/issues/4115).
 
-1. This doesn't reliably send messages again in case of a disaster at the client side, only when there is an outage at the Azure Monitor side. 
+1. This doesn't reliably send messages again in case of a disaster at the client side, only when there is an outage at the Azure Monitor side.
 1. Logs could be automatically converted to span events via `AttachLogsToActivityEvent` to get the same reliability as (events in) spans, but this changes the event message and properties too much and thus requires some more tweaking via `LogToActivityEventConversionOptions`.
 
 ### Spans
 
 > ✔️ Using spans for auditing purposes is supported. This includes span events via `ActivityEvent`, added to (completed) spans via `Activity.AddEvent`.
 
-**On time export of spans** to Azure Monitor is made possible by [ForceFlush](https://opentelemetry.io/docs/specs/otel/trace/sdk/#forceflush), implemented via `AutoFlushActivityProcessor`. This processor is in [OpenTelemetry.Extensions](https://www.nuget.org/packages/OpenTelemetry.Extensions). 
+**On time export of spans** to Azure Monitor is made possible by [ForceFlush](https://opentelemetry.io/docs/specs/otel/trace/sdk/#forceflush), implemented via `AutoFlushActivityProcessor`. This processor is in [OpenTelemetry.Extensions](https://www.nuget.org/packages/OpenTelemetry.Extensions).
 
 1. To confirm that it reliably exports completed spans, please see the `FailFastTest` in [IntegrationTest](/IntegrationTest/).
-1. See https://github.com/open-telemetry/opentelemetry-specification/issues/2944#issuecomment-1319536765 for more context. 
+1. See https://github.com/open-telemetry/opentelemetry-specification/issues/2944#issuecomment-1319536765 for more context.
 1. It doesn't check the flush status but does wait until it's done, please see: https://github.com/open-telemetry/opentelemetry-dotnet-contrib/issues/2721.
 1. [What is guaranteed on a completed Activity?](https://github.com/open-telemetry/opentelemetry-dotnet/discussions/6266)
 
 ## Caveats
 
-1. Baggage is in a rough state, see: 
+1. Baggage is in a rough state, see:
    - Conflicting implementations: https://github.com/open-telemetry/opentelemetry-dotnet/issues/5667
    - Azure Function support not complete: https://github.com/Azure/azure-functions-host/issues/11026
    - Streamlining attempt in .NET: https://github.com/dotnet/runtime/issues/112803
