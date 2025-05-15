@@ -3,6 +3,7 @@
     "ms-azuretools.vscode-azurefunctions",
     "ms-dotnettools.csharp",
     "ms-dotnettools.csdevkit",
-    "davidanson.vscode-markdownlint"
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-mermaid"
   ]
 }

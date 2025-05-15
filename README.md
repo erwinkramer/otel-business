@@ -23,7 +23,6 @@ func["Azure Function App"]
 asp["ASP.NET Core App"]
 cons["Console App"]
 
-
 gm["Business tracing with Guanchen.Monitor"]
 
 subgraph azm[Azure Monitor]
