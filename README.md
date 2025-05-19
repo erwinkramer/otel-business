@@ -44,9 +44,9 @@ azmappi -- persists in --> azmtables
 
 ### Spans
 
-> [OTel Spans](https://opentelemetry.io/docs/concepts/signals/traces/#spans) are [Activities in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activity) and end up in the `requests` table.
+> ℹ️ [OTel Spans](https://opentelemetry.io/docs/concepts/signals/traces/#spans) are [Activities in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activity) and end up in the `requests` table.
 
-> [OTel Trace IDs](https://opentelemetry.io/docs/concepts/signals/traces/#span-context) are [ActivityTraceId's in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activitytraceid) and [result](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-overview#opentelemetry) in [operation IDs](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#:~:text=operation_Id-,OperationId,-The%20unique%20identifier).
+> ℹ️ [OTel Trace IDs](https://opentelemetry.io/docs/concepts/signals/traces/#span-context) are [ActivityTraceId's in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activitytraceid) and [result](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-overview#opentelemetry) in [operation IDs](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#:~:text=operation_Id-,OperationId,-The%20unique%20identifier).
 
 Use `StartParentBusinessActivity()` to start a business span and `StartLinkedBusinessActivity()` to start a business span linked to another span. Both of these methods generate new operation IDs. These operation IDs are an important tool to analyze business logging and can effectively seen as a trace of business operations.
 
@@ -54,19 +54,19 @@ Use `StartChildBusinessActivity()` to start a child business span. This method w
 
 ### Span Events
 
-> [OTel Span Events](https://opentelemetry.io/docs/concepts/signals/traces/#span-events) are [ActivityEvents in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activityevent) and end up in the `traces` table.
+> ℹ️ [OTel Span Events](https://opentelemetry.io/docs/concepts/signals/traces/#span-events) are [ActivityEvents in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activityevent) and end up in the `traces` table.
 
 Use `NewBusinessEvent()` to create business events within a span. These events are stored in the same table as [Logs](#logs) but are directly associated with a span, ensuring more reliable delivery. For more details, refer to the [Reliability notes](#reliability-notes).
 
 ### Logs
 
-> [OTel Logs](https://opentelemetry.io/docs/concepts/signals/logs/) are [ILogger logs in .NET](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger) and end up in the `traces` table.
+> ℹ️ [OTel Logs](https://opentelemetry.io/docs/concepts/signals/logs/) are [ILogger logs in .NET](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger) and end up in the `traces` table.
 
 Use `LogBusinessInformation()` or `LogBusinessError()` to create business logs within a span.
 
 ### Baggage
 
-> [OTel Baggage](https://opentelemetry.io/docs/concepts/signals/baggage/) keeps contextual information and [propagates](https://opentelemetry.io/docs/concepts/context-propagation/#propagation) the information (which currently has its limits, as explained at [the Caveats paragraph](#caveats)). Technically, on .NET Activities they are `Tags` and for .NET ILogger logs they will be set on `OpenTelemetry.Logs.LogRecord.Attributes`. For both they will end up in the [Custom properties](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#custom-properties-1) column of their related Azure Monitor table (`requests` and `traces` respectively).
+> ℹ️ [OTel Baggage](https://opentelemetry.io/docs/concepts/signals/baggage/) keeps contextual information and [propagates](https://opentelemetry.io/docs/concepts/context-propagation/#propagation) the information (which currently has its limits, as explained at [the Caveats paragraph](#caveats)). Technically, on .NET Activities they are `Tags` and for .NET ILogger logs they will be set on `OpenTelemetry.Logs.LogRecord.Attributes`. For both they will end up in the [Custom properties](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#custom-properties-1) column of their related Azure Monitor table (`requests` and `traces` respectively).
 
 Use `Baggage.SetBaggage()` to set business context information to the root span, this persists throughout other spans (and their logs and events) that use the same root span, unless overwritten by a more recent `Baggage.SetBaggage()`.
 
