@@ -46,7 +46,9 @@ azmappi -- persists in --> azmtables
 
 > [OTel Spans](https://opentelemetry.io/docs/concepts/signals/traces/#spans) are [Activities in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activity) and end up in the `requests` table.
 
-Use `StartParentBusinessActivity()` to start a business span and `StartLinkedBusinessActivity()` to start a business span linked to another span. Both of these methods generate new [operation IDs](https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#:~:text=operation_Id-,OperationId,-The%20unique%20identifier). These operation IDs are an important tool to analyze your business logging and can effectively seen as your span of business operations.
+> [OTel Trace IDs](https://opentelemetry.io/docs/concepts/signals/traces/#span-context) are [ActivityTraceId's in .NET](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.activitytraceid) and [result](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-overview#opentelemetry) in [operation IDs]((https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete#:~:text=operation_Id-,OperationId,-The%20unique%20identifier)).
+
+Use `StartParentBusinessActivity()` to start a business span and `StartLinkedBusinessActivity()` to start a business span linked to another span. Both of these methods generate new operation IDs. These operation IDs are an important tool to analyze business logging and can effectively seen as a trace of business operations.
 
 Use `StartChildBusinessActivity()` to start a child business span. This method will not generate a new operation ID and is generally suited for sub-processes within a business operation.
 
