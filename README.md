@@ -12,6 +12,17 @@ Get started with distributed business tracing in context of OTel (OpenTelemetry)
 1. Console Apps, sample via [IntegrationTest.Console](/IntegrationTest.Console/)
 1. Function Apps, sample via [IntegrationTest.Function](/IntegrationTest.Function/)
 
+The main features (extended on top of a default OpenTelemetry setup) are:
+
+| Functionality | Description
+|--|--
+| StartBusinessActivity (Parent/Child/Linked) methods | Starts a standardized business activity (parent, child, or linked).
+| NewBusinessEvent method | Creates a standardized business event.
+| LogBusiness (Information/Error) methods | Creates a standardized business log.
+| Standardization of OTel Baggage | All business activities, events and logs contain the same business identifiers such as the `BusinessTrace`-tag and the 💼-prefix and continuously will be set (along with other context) on business activities, events and logs.
+| Standardization of KQL analysis | Standardized Azure Monitor KQL-queries for business activities, events and logs.
+| Reliable processing of activities and events | `StartBusinessActivity` and `NewBusinessEvent` are reliably handled via the `AutoFlushActivityProcessor` and suitable for auditing purposes.
+
 ## Library positioning
 
 Business tracing in this project simply sits right between your app and the [Azure Monitor OpenTelemetry Distro](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore), as shown below:
