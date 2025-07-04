@@ -19,23 +19,29 @@ public partial class Common
 
         using (var activity = businessActivitySource.StartChildBusinessActivity($"Analyzing {state} Price"))
         {
-            activity.SetBaggage("Tomato Pricing State",  state.ToString());
+            activity.SetBaggage("Tomato Pricing State", state.ToString());
             activity.SetBaggage("Tomato Price", price.ToString());
-
             activity.AddEvent(BusinessTracing.NewBusinessEvent("Checking cost of tomato",
             [
                 new KeyValuePair<string, object?>("Checker", "Erwin"),
             ]));
 
-            if (price < 18)
+            if (price < 4)
             {
                 logger.LogBusinessInformation("This is good, because {Business Reason}.", "Tomato is vibing hard!?");
                 activity?.SetStatus(ActivityStatusCode.Ok);
             }
             else
             {
-                logger.LogBusinessError("An error occurred, because {Business Reason}.", "Tomato is capping hard!?");
-                activity?.SetStatus(ActivityStatusCode.Error);
+                try
+                {
+                    throw new Exception("Yup, this tomato is going to the exception bin.");
+                }
+                catch (Exception ex)
+                {
+                    activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+                    activity?.AddException(ex);
+                }
             }
         }
 
