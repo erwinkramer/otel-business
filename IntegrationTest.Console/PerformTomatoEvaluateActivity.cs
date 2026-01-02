@@ -2,7 +2,6 @@
 using Guanchen.Monitor;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry;
 
 public partial class Common
 {

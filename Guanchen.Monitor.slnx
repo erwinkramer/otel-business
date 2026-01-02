@@ -1,0 +1,11 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Guanchen.Monitor/Guanchen.Monitor.csproj" />
+  <Project Path="IntegrationTest.Console/IntegrationTest.Console.csproj" />
+  <Project Path="IntegrationTest.Function/IntegrationTest.Function.csproj" />
+  <Project Path="IntegrationTest/IntegrationTest.csproj" />
+</Solution>

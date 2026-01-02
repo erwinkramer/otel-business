@@ -15,7 +15,7 @@ Get started with distributed business tracing in context of OTel (OpenTelemetry)
 The main features (extended on top of a default OpenTelemetry setup) are:
 
 | Functionality | Description
-|--|--
+| -- | --
 | StartBusinessActivity (Parent/Child/Linked) methods | Starts a standardized business activity (parent, child, or linked).
 | NewBusinessEvent method | Creates a standardized business event.
 | LogBusiness (Information/Error) methods | Creates a standardized business log.
@@ -289,12 +289,12 @@ AppTracesTomatoScope
 The following table mappings are relevant in this project:
 
 | Azure Monitor Table | OpenTelemetry DataType | .NET Implementation
-|---|---|---
-| customMetrics        | Metrics                         | System.Diagnostics.Metrics.Meter
-| exceptions           | Exceptions                      | System.Exception
-| requests             | Spans (Server, Producer)        | System.Diagnostics.Activity
-| traces               | Logs                            | Microsoft.Extensions.Logging.ILogger
-| traces               | Span Events                     | System.Diagnostics.ActivityEvent
+| -- | -- | --
+| customMetrics | Metrics | System.Diagnostics.Metrics.Meter
+| exceptions | Exceptions | System.Exception
+| requests | Spans (Server, Producer) | System.Diagnostics.Activity
+| traces | Logs | Microsoft.Extensions.Logging.ILogger
+| traces | Span Events | System.Diagnostics.ActivityEvent
 
 For a complete overview, see [How do Application Insights telemetry types map to OpenTelemetry?](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-dotnet-migrate?tabs=aspnetcore#how-do-application-insights-telemetry-types-map-to-opentelemetry).
 
