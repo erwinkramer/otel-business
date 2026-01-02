@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Extensions.Logging;
-using OpenTelemetry;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Guanchen.Monitor
 {
